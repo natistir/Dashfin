@@ -15,6 +15,33 @@ extension VideoPlayerType {
 
     @ArrayBuilder<DirectPlayProfile>
     static var _swiftfinDirectPlayProfiles: [DirectPlayProfile] {
+        #if os(tvOS)
+        // tvOS Swiftfin Player (VLCKit) - Explicit format support
+        DirectPlayProfile(type: .video) {
+            AudioCodec.aac
+            AudioCodec.ac3
+            AudioCodec.eac3
+            AudioCodec.mp3
+            AudioCodec.dts
+            AudioCodec.opus
+            AudioCodec.vorbis
+            AudioCodec.flac
+            AudioCodec.alac
+        } videoCodecs: {
+            VideoCodec.h264
+            VideoCodec.hevc
+            VideoCodec.vp9
+            VideoCodec.vp8
+            VideoCodec.mpeg4
+        } containers: {
+            MediaContainer.mkv
+            MediaContainer.mp4
+            MediaContainer.m4v
+            MediaContainer.mov
+            MediaContainer.avi
+            MediaContainer.webm
+        }
+        #else
         DirectPlayProfile(type: .video) {
             AudioCodec.aac
             AudioCodec.ac3

@@ -15,6 +15,21 @@ extension VideoPlayerType {
 
     @ArrayBuilder<DirectPlayProfile>
     static var _nativeDirectPlayProfiles: [DirectPlayProfile] {
+        #if os(tvOS)
+        // tvOS Native Player (AVPlayer) - Restricted to supported formats only
+        DirectPlayProfile(type: .video) {
+            AudioCodec.aac
+            AudioCodec.ac3
+            AudioCodec.eac3
+        } videoCodecs: {
+            VideoCodec.h264
+            VideoCodec.hevc
+        } containers: {
+            MediaContainer.mp4
+            MediaContainer.m4v
+            MediaContainer.mov
+        }
+        #else
         DirectPlayProfile(type: .video) {
             AudioCodec.aac
             AudioCodec.ac3
@@ -72,23 +87,25 @@ extension VideoPlayerType {
 
         DirectPlayProfile(type: .video) {
             AudioCodec.aac
-            AudioCodec.amr_nb
+            AudioCodec.ac3
+            AudioCodec.eac3
+            AudioCodec.mp3
         } videoCodecs: {
             VideoCodec.h264
             VideoCodec.mpeg4
         } containers: {
-            MediaContainer.threeG2
-            MediaContainer.threeGP
+            MediaContainer._3g2
+            MediaContainer._3gp
         }
 
         DirectPlayProfile(type: .video) {
-            AudioCodec.pcm_mulaw
-            AudioCodec.pcm_s16le
+            AudioCodec.mp3
         } videoCodecs: {
-            VideoCodec.mjpeg
+            VideoCodec.h264
         } containers: {
             MediaContainer.avi
         }
+        #endif
     }
 
     // MARK: transcoding
